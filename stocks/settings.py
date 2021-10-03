@@ -159,7 +159,8 @@ GRAPHENE = {
     'SCHEMA': 'stocks.schema.schema',
     'MIDDLEWARE': [
         'stocks.middlewares.CustomAuthMiddleware',
+        'stocks.middlewares.CustomPaginationMiddleware'
         
     ],
-    'PAGE_SIZE': 20
+    'PAGE_SIZE': 1
 }

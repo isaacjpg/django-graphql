@@ -7,8 +7,7 @@ from graphene_django import DjangoObjectType
 from django.contrib.auth import authenticate
 from datetime import datetime
 from stocks.authentication import TokenManager
-from stocks.permisions import is_authenticated
-
+from stocks.permisions import is_authenticated, paginate
 
 
 class UserType(DjangoObjectType):
@@ -79,11 +78,10 @@ class GetAccess(graphene.Mutation):
 
 
 class Query(graphene.ObjectType):
-  users=graphene.List(UserType)
+  users=graphene.Field(paginate(UserType), page=graphene.Int())
 
   @is_authenticated 
   def resolve_users(self,info,**kwargs):
-    print(info.context.user)
     return User.objects.all()
 
 class Mutation(graphene.ObjectType):

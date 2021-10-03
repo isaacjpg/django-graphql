@@ -1,4 +1,4 @@
-
+from .permisions import resolve_paginated
 
 class CustomAuthMiddleware(object):
   def resolve(self, next,root,info,**kwargs):
@@ -10,4 +10,18 @@ class CustomAuthMiddleware(object):
     from .authentication import Authentication
     auth = Authentication(info.context)
     return auth.authenticate()
+
+class CustomPaginationMiddleware(object):
+  def resolve(self, next, root, info, **kwargs):
+    try:
+      #Detecta si el return type (nombre del typo contiene Paginated en el nombre)
+      is_paginated = info.return_type.name[-9:]
+      is_paginated=is_paginated=="Paginated"
+    except Exception:
+      is_paginated = False
     
+    if is_paginated:
+      page=kwargs.pop("page",1)
+      return resolve_paginated(next(root, info,**kwargs).value,info,page)
+    
+    return next(root, info,**kwargs)
