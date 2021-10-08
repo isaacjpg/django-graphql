@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'graphene_django',
-    'user_controller'
+    'user_controller',
+    'products_controller',
 ]
 
 AUTH_USER_MODEL="user_controller.User"
@@ -162,5 +163,5 @@ GRAPHENE = {
         'stocks.middlewares.CustomPaginationMiddleware'
         
     ],
-    'PAGE_SIZE': 1
+    'PAGE_SIZE': 20
 }

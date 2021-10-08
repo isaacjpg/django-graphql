@@ -28,7 +28,7 @@ class TokenManager:
   @staticmethod
   def get_access(payload):
     #el 5 define la cantidad de minutos en lo que expira el token de acceso
-    return TokenManager.get_token(5,payload)
+    return TokenManager.get_token(60,payload)
 
   @staticmethod
   def get_refresh(payload):

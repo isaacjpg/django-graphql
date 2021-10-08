@@ -2,7 +2,7 @@ from django.db import models
 
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-
+from django.conf import settings
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password, **extra_fields):
@@ -32,6 +32,8 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
   email=models.EmailField(unique=True)
+  first_name=models.CharField(max_length=100)
+  last_name=models.CharField(max_length=100)
   created_at=models.DateTimeField(auto_now_add=True)
   updated_at=models.DateTimeField(auto_now=True)
 
@@ -48,3 +50,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     super().full_clean()
     super().save(*args,**kwargs)  
       
+class ImageUpload(models.Model):
+    image=models.ImageField(upload_to="images")
+
+    def __str__(self):
+        return "{}{}{}".format(settings.S3_BUCKET_URL,settings.MEDIA_URL , self.image)
+
+class UserProfile(models.Model):
+    user=models.OneToOneField(User,related_name="user_profile",on_delete=models.CASCADE)
+    profile_picture=models.ForeignKey(ImageUpload, related_name="user_images",on_delete=models.SET_NULL, null=True)
+    phone=models.CharField(max_length=100,blank=True,null=True)
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.email
+
