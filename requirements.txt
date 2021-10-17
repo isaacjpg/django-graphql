@@ -3,6 +3,7 @@ asgiref==3.4.1
 boto3==1.18.53
 botocore==1.21.53
 Django==3.2.7
+django-cors-headers==3.10.0
 django-storages==1.11.1
 graphene==2.1.9
 graphene-django==2.15.0

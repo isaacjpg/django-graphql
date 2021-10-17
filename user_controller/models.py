@@ -28,12 +28,12 @@ class UserManager(BaseUserManager):
         if not extra_fields.get("is_superuser", False):
             raise ValueError('Superuser must have is_staff=True.')
 
-        return self.create_user(email, password)
+        return self.create_user(email, password,**extra_fields)
 
 class User(AbstractBaseUser, PermissionsMixin):
   email=models.EmailField(unique=True)
-  first_name=models.CharField(max_length=100)
-  last_name=models.CharField(max_length=100)
+  first_name=models.CharField(max_length=100,blank=True)
+  last_name=models.CharField(max_length=100,blank=True)
   created_at=models.DateTimeField(auto_now_add=True)
   updated_at=models.DateTimeField(auto_now=True)
 
